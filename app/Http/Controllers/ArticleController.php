@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Transformers\ArticleTransformer;
 use League\Fractal;
 use League\Fractal\Manager;
+use Cloudder;
 
 class ArticleController extends Controller
 {
@@ -52,9 +53,19 @@ class ArticleController extends Controller
             'main_title' => 'required',
             'secondary_title'=>'required',
             'content' => 'required',
-            'author_id' => 'required'
+            'author_id' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+        
+        if ($request->hasFile('image') && $request->file('image')->isValid()){
+        $cloudder = Cloudder::upload($request->file('image')->getRealPath());
+        $uploadResult = $cloudder->getResult();
+        $file_url = $uploadResult["url"];
+        }
+        //dd($file_url);
         $article = Article::create($request->all());
+        $article->image = $file_url;
+        $article->save();
         $article = new Fractal\Resource\Item($article, $this->articleTransformer); // Create a resource collection transformer
         $this->fractal->parseIncludes('author');
         $article = $this->fractal->createData($article); // Transform data
