@@ -53,12 +53,13 @@ class AuthorController extends Controller
     public function create(Request $request)
     {
          $this->validate($request, [
-             'name' => 'required',
+             'name' => 'required', 
+             'password' => 'required|min:6', 
              'email' => 'required|email|unique:authors',
              'location' => 'required'
          ]);
-
-        $author = Author::create($request->all());
+        $validated = $request->validated();
+        $author = Author::create($validated);
 	    $author = new Fractal\Resource\Item($author, $this->authorTransformer); 
         $author = $this->fractal->createData($author);
         // dd($author);
@@ -69,15 +70,17 @@ class AuthorController extends Controller
     public function update($id, Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
+            'name' => 'required', 
+            'password' => 'required|min:6', 
             'email' => 'required|email|unique:authors',
             'location' => 'required'
         ]);
+        $validated = $request->validated();
         $author = Author::find($id);
         if(!$author){
             return response()->json(['message' => "The author with {$id} doesn't exist"], 404);
         }
-        $author->update($request->all());
+        $author->update($validated);
 	    $author = new Fractal\Resource\Item($author, $this->authorTransformer); 
         $author = $this->fractal->createData($author);
         return response()->json($author->toArray(),200);

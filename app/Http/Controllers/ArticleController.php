@@ -59,14 +59,14 @@ class ArticleController extends Controller
             'author_id' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        
+        $validated = $request->validated();
         if ($request->hasFile('image') && $request->file('image')->isValid()){
         $cloudder = Cloudder::upload($request->file('image')->getRealPath());
         $uploadResult = $cloudder->getResult();
         $file_url = $uploadResult["url"];
         }
         //dd($file_url);
-        $article = Article::create($request->all());
+        $article = Article::create($validated);
         $article->image = $file_url;
         $article->save();
         $article = new Fractal\Resource\Item($article, $this->articleTransformer); // Create a resource collection transformer
@@ -85,12 +85,12 @@ class ArticleController extends Controller
             'author_id' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        
+        $validated = $request->validated();
         $article = Article::find($id);
         if(!$article){
             return response()->json(['message' => "The article with {$id} doesn't exist"], 404);
         }
-        $article->update($request->all());
+        $article->update($validated);
         if ($request->hasFile('image') && $request->file('image')->isValid()){
             if($request->file('image') != $article->first()->image){
                 $cloudder = Cloudder::upload($request->file('image')->getRealPath());
