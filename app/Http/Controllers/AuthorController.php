@@ -41,6 +41,9 @@ class AuthorController extends Controller
     public function showOneAuthor($id)
     {
         $author=Author::find($id);
+        if(!$author){
+            return response()->json(['message' => "The author with {$id} doesn't exist"], 404);
+        }
         $author = new Fractal\Resource\Item($author, $this->authorTransformer); 
         $author = $this->fractal->createData($author);
         // dd($author);

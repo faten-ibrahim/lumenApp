@@ -40,6 +40,9 @@ class ArticleController extends Controller
     public function showOneArticle($id)
     {
         $article=Article::find($id);
+        if(!$article){
+            return response()->json(['message' => "The article with {$id} doesn't exist"], 404);
+        }
         $article = new Fractal\Resource\Item($article, $this->articleTransformer); // Create a resource collection transformer
         $this->fractal->parseIncludes('author');
         $article = $this->fractal->createData($article); // Transform data
