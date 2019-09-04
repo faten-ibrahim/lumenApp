@@ -78,15 +78,18 @@ class ArticleController extends Controller
         $this->validate($request, [
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        if ($request->hasFile('image') && $request->file('image')->isValid()){
-            $cloudder = Cloudder::upload($request->file('image')->getRealPath());
-            $uploadResult = $cloudder->getResult();
-            $file_url = $uploadResult["url"];
-        }
+        
         $article = Article::findOrFail($id);
         $article->update($request->all());
-        $article->image = $file_url;
-        $article->save();
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()){
+            if($request->file('image') != $article->first()->image){
+                $cloudder = Cloudder::upload($request->file('image')->getRealPath());
+                $uploadResult = $cloudder->getResult();
+                $file_url = $uploadResult["url"];$article->image = $file_url;
+                $article->save();
+            }
+        }        
 	    $article = new Fractal\Resource\Item($article, $this->articleTransformer); 
         $this->fractal->parseIncludes('author');
         $article = $this->fractal->createData($article);
