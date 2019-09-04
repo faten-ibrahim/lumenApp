@@ -79,12 +79,18 @@ class ArticleController extends Controller
     public function update($id, Request $request)
     {
         $this->validate($request, [
+            'main_title' => 'required',
+            'secondary_title'=>'required',
+            'content' => 'required',
+            'author_id' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         
-        $article = Article::findOrFail($id);
+        $article = Article::find($id);
+        if(!$article){
+            return response()->json(['message' => "The article with {$id} doesn't exist"], 404);
+        }
         $article->update($request->all());
-
         if ($request->hasFile('image') && $request->file('image')->isValid()){
             if($request->file('image') != $article->first()->image){
                 $cloudder = Cloudder::upload($request->file('image')->getRealPath());

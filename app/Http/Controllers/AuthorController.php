@@ -68,7 +68,15 @@ class AuthorController extends Controller
 
     public function update($id, Request $request)
     {
-        $author = Author::findOrFail($id);
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:authors',
+            'location' => 'required'
+        ]);
+        $author = Author::find($id);
+        if(!$author){
+            return response()->json(['message' => "The author with {$id} doesn't exist"], 404);
+        }
         $author->update($request->all());
 	    $author = new Fractal\Resource\Item($author, $this->authorTransformer); 
         $author = $this->fractal->createData($author);
