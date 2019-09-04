@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Transformers\ArticleTransformer;
 use League\Fractal;
 use League\Fractal\Manager;
-use Cloudder;
+use JD\Cloudder\Facades\Cloudder as Cloudder;
 
 class ArticleController extends Controller
 {
@@ -59,14 +59,14 @@ class ArticleController extends Controller
             'author_id' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        $validated = $request->validated();
+        $file_url = "https://res.cloudinary.com/du9jugrtd/image/upload/v1567609092/n0jssphvusc5byvbhuz9.jpg";
         if ($request->hasFile('image') && $request->file('image')->isValid()){
         $cloudder = Cloudder::upload($request->file('image')->getRealPath());
         $uploadResult = $cloudder->getResult();
         $file_url = $uploadResult["url"];
         }
         //dd($file_url);
-        $article = Article::create($validated);
+        $article = Article::create($request->all());
         $article->image = $file_url;
         $article->save();
         $article = new Fractal\Resource\Item($article, $this->articleTransformer); // Create a resource collection transformer
@@ -85,12 +85,13 @@ class ArticleController extends Controller
             'author_id' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        $validated = $request->validated();
+        
         $article = Article::find($id);
         if(!$article){
             return response()->json(['message' => "The article with {$id} doesn't exist"], 404);
         }
-        $article->update($validated);
+        $file_url = "https://res.cloudinary.com/du9jugrtd/image/upload/v1567609092/n0jssphvusc5byvbhuz9.jpg";
+        $article->update($request->all());
         if ($request->hasFile('image') && $request->file('image')->isValid()){
             if($request->file('image') != $article->first()->image){
                 $cloudder = Cloudder::upload($request->file('image')->getRealPath());

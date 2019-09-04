@@ -18,8 +18,8 @@ class CreateAuthorsTable extends Migration
             $table->string('name',100);
             $table->string('password',150);
             $table->string('email',50);
-            $table->string('github',50);
-            $table->string('twitter',50);
+            $table->string('github',50)->nullable();
+            $table->string('twitter',50)->nullable();
             $table->string('location',150);
             $table->string('latest_article_published',50)->nullable();
             $table->timestamps();

@@ -48,56 +48,27 @@ class AuthorTest extends TestCase
     * /api/authors [POST]
     */
    public function testShouldCreateAuthor(){
-       $parameters = [
-            'name' => 'hazem ali',
-            'email' => 'hazem_ali@yahoo.com',
-            'github' => 'fffff',
-            'twitter' => 'ggggggffff',
-            'location' => 'locatttttt',
-            'latest_article_published' => 'article rrr',
-       ];
-       $this->post('api/authors', $parameters, []);
-       $this->seeStatusCode(201);
-       $this->seeJsonStructure(
-           [
-                'name',
-                'email',
-                'github',
-                'twitter',
-                'location',
-                'latest article published'
-           ]
-       );
+    $author = factory('App\Author')->make();
+    $response=$this->post("api/authors", $author->toArray(), []);         
+    $this->assertEquals(201, $this->response->status());
+
    }
 
    /**
     * /api/authors/id [PUT]
     */
    public function testShouldUpdateAuthor(){
-       $parameters = [
-           'name' => 'hazem t',
-           'email' => 'hazem_t@yahoo.com',
-         
-       ];
-       $this->put("api/authors/4", $parameters, []);
-       $this->seeStatusCode(200);
-       $this->seeJsonStructure(
-            [
-                'name',
-                'email',
-                'github',
-                'twitter',
-                'location',
-                'latest article published'
-           ]
-       );
+    $author = factory('App\Author')->make();
+    $response=$this->put("api/authors/2", $author->toArray(), []);         
+    $this->assertEquals(200, $this->response->status());
+
    }
    /**
     * /api/authors/id [DELETE]
     */
    public function testShouldDeleteAuthor(){
 
-       $this->delete("api/authors/7", [], []);
+       $this->delete("api/authors/1", [], []);
        $this->seeStatusCode(200);
        $this->seeJsonStructure([
                'message',

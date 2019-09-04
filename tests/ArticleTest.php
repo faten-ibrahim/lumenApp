@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\UploadedFile;
 class ArticleTest extends TestCase
 {
    /**
@@ -46,56 +46,30 @@ class ArticleTest extends TestCase
     * /api/articles [POST]
     */
    public function testShouldCreateArticle(){
-       $parameters = [
-           'main_title' => 'create main title',
-           'secondary_title' => 'create second title',
-           'content' => 'create content',
-           'image' => 'imagecreate.png',
-           'author_id' => 1
-       ];
-       $this->post('api/articles', $parameters, []);
-       $this->seeStatusCode(201);
-       $this->seeJsonStructure(
-           [
-               
-                'main title',
-                'secondary title',
-                'article content',
-                'author ID',
-                'image url',
-           ]
-       );
+      
+    $article = factory('App\Article')->make();
+    $article['image'] = UploadedFile::fake()->image('avatar.jpeg');
+    // dd($article);
+    $response=$this->post("api/articles", $article->toArray(), []);        
+    $this->assertEquals(201, $this->response->status());
    }
 
    /**
     * /api/articles/id [PUT]
     */
    public function testShouldUpdateArticle(){
-       $parameters = [
-           'main_title' => 'update main title',
-           'secondary_title' => 'update second title',
-           'content' => 'update content',
-           'image' => 'imageupdate.png',
-           'author_id' => 1
-       ];
-       $this->put("api/articles/13", $parameters, []);
-       $this->seeStatusCode(200);
-       $this->seeJsonStructure(
-           [           
-                'main title',
-                'secondary title',
-                'article content',
-                'author ID',
-                'image url',
-           ]
-       );
+    
+    $article = factory('App\Article')->make();
+    $article['image'] = UploadedFile::fake()->image('avatar.jpeg');
+    $response=$this->put("api/articles/31", $article->toArray(), []);         
+    $this->assertEquals(200, $this->response->status());
    }
    /**
     * /api/articles/id [DELETE]
     */
    public function testShouldDeleteArticle(){
 
-       $this->delete("api/articles/5", [], []);
+       $this->delete("api/articles/31", [], []);
        $this->seeStatusCode(200);
        $this->seeJsonStructure([
                'status',

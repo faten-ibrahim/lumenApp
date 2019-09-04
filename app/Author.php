@@ -13,7 +13,7 @@ class Author extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'github', 'twitter', 'location', 'latest_article_published'
+        'name', 'password' ,'email','github', 'twitter', 'location', 'latest_article_published'
     ];
 
     /**

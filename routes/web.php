@@ -37,5 +37,5 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->delete('articles/{id}', ['uses' => 'ArticleController@delete']);
   
     $router->put('articles/{id}', ['uses' => 'ArticleController@update']);
-    $router->post('/upload', 'ImageController@upload');
+    // $router->post('/upload', 'ImageController@upload');
   });
