@@ -15,7 +15,7 @@ $factory->define(App\Author::class, function (Faker\Generator $faker) {
     $hasher = app()->make('hash');
     return [
         'name' => $faker->name,
-        'email' => $faker->email,
+        'email' => $faker->unique()->safeEmail,
         'password'=>$hasher->make("secret"),
         'github'=>$faker->sentence(4),
         'twitter'=>$faker->sentence(4),
