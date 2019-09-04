@@ -11,9 +11,27 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Author::class, function (Faker\Generator $faker) {
+    $hasher = app()->make('hash');
     return [
         'name' => $faker->name,
         'email' => $faker->email,
+        'password'=>$hasher->make("secret"),
+        'github'=>$faker->sentence(4),
+        'twitter'=>$faker->sentence(4),
+        'location'=>$faker->sentence(4),
+        'latest_article_published'=>$faker->sentence(4)
     ];
 });
+
+
+$factory->define(App\Article::class, function (Faker\Generator $faker) {
+    return [
+        'main_title' => $faker->sentence(4),
+        'secondary_title' => $faker->sentence(4),
+        'content' => $faker->paragraph(2),
+        'image'=> $faker->image,
+        'author_id' => mt_rand(1, 10)
+    ];
+});
+
