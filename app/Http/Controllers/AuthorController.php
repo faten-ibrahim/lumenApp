@@ -8,6 +8,11 @@ use App\Transformers\AuthorTransformer;
 use League\Fractal;
 use League\Fractal\Manager;
 
+/**
+ * @group Author management
+ *
+ * APIs for managing authors
+ */
 
 class AuthorController extends Controller
 {
@@ -28,6 +33,15 @@ class AuthorController extends Controller
         $this->authorTransformer = $authorTransformer;
     }
 
+/**
+ * Show all authors
+ *
+ * Api to list all authors
+ * @transformercollection \ App\Transformers\AuthorTransformer
+ * @transformerModel \App\Author
+ *
+ */
+
     public function showAllAuthors()
     {
         $authors = Author::all(); // Get users from DB
@@ -38,6 +52,15 @@ class AuthorController extends Controller
        
     }
 
+/**
+ * Show one author
+ *
+ * Api to show one author
+ *  
+ * @transformercollection \ App\Transformers\AuthorTransformer
+ * @transformerModel \App\Author
+ *
+ */
     public function showOneAuthor($id)
     {
         $author=Author::find($id);
@@ -50,6 +73,24 @@ class AuthorController extends Controller
         return response()->json($author->toArray(),200);
     }
 
+
+/**
+ * Create an author
+ *
+ * Api to create an author
+ * 
+ * @bodyParam name string required The name of the author.
+ * @bodyParam password string required The password of the author.
+ * @bodyParam email string required The email of the author.
+ * @bodyParam location string required The location of the author.
+ * @bodyParam github string The github account of the author.
+ * @bodyParam twitter string  The twitter account of the author.
+ * @transformercollection \ App\Transformers\AuthorTransformer
+ * @transformerModel \App\Author
+ * 
+ *
+ */
+
     public function create(Request $request)
     {
          $this->validate($request, [
@@ -58,8 +99,11 @@ class AuthorController extends Controller
              'email' => 'required|email|unique:authors',
              'location' => 'required'
          ]);
-
+        $password=$request->password;
+        $hashedPassword = app('hash')->make($password);
         $author = Author::create($request->all());
+        $author['password']=$hashedPassword;
+        $author->save();
 	    $author = new Fractal\Resource\Item($author, $this->authorTransformer); 
         $author = $this->fractal->createData($author);
         // dd($author);
@@ -67,6 +111,15 @@ class AuthorController extends Controller
 
     }
 
+
+/**
+ * Update
+ *
+ * Api to update an author
+ * @transformercollection \ App\Transformers\AuthorTransformer
+ * @transformerModel \App\Author
+ *
+ */
     public function update($id, Request $request)
     {
         $this->validate($request, [
@@ -86,6 +139,12 @@ class AuthorController extends Controller
 
     }
 
+/**
+ * Delete
+ *
+ * Api to delete an author
+ *
+ */
     public function delete($id)
     {
         Author::findOrFail($id)->delete();

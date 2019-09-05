@@ -1,0 +1,517 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Reference</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/all.js"></script>
+
+
+          <script>
+        $(function() {
+            setupLanguages(["bash","javascript"]);
+        });
+      </script>
+      </head>
+
+  <body class="">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+        <img src="images/logo.png" />
+                    <div class="lang-selector">
+                                  <a href="#" data-language-name="bash">bash</a>
+                                  <a href="#" data-language-name="javascript">javascript</a>
+                            </div>
+                            <div class="search">
+              <input type="text" class="search" id="input-search" placeholder="Search">
+            </div>
+            <ul class="search-results"></ul>
+              <div id="toc">
+      </div>
+                    <ul class="toc-footer">
+                                  <li><a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a></li>
+                            </ul>
+            </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+          <!-- START_INFO -->
+<h1>Info</h1>
+<p>Welcome to the generated API reference.
+<a href="http://localhost:8000/docs/collection.json">Get Postman Collection</a></p>
+<!-- END_INFO -->
+<h1>Article management</h1>
+<p>APIs for managing articles</p>
+<!-- START_f12b8e5675a9867b848488d3de8cbeca -->
+<h2>Show all articles</h2>
+<p>Api to list all articles</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/auth/articles" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/auth/articles");
+
+let headers = {
+    "Authorization": "Bearer {token}",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET /auth/articles</code></p>
+<!-- END_f12b8e5675a9867b848488d3de8cbeca -->
+<!-- START_d387e3749c3755a3c63533f06550755d -->
+<h2>Show one article</h2>
+<p>Api to show one article</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/auth/articles/1" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/auth/articles/1");
+
+let headers = {
+    "Authorization": "Bearer {token}",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET /auth/articles/{id}</code></p>
+<!-- END_d387e3749c3755a3c63533f06550755d -->
+<!-- START_9a915642db53ac060c5e3bf700770117 -->
+<h2>Create an article</h2>
+<p>Api to create an article</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost:8000/auth/articles" \
+    -H "Authorization: Bearer {token}" \
+    -H "Content-Type: application/json" \
+    -d '{"main_title":"hic","secondary_title":"commodi","content":"ut","image":"tempora","author_id":18}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/auth/articles");
+
+let headers = {
+    "Authorization": "Bearer {token}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "main_title": "hic",
+    "secondary_title": "commodi",
+    "content": "ut",
+    "image": "tempora",
+    "author_id": 18
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST /auth/articles</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>main_title</td>
+<td>string</td>
+<td>required</td>
+<td>The main title of the article.</td>
+</tr>
+<tr>
+<td>secondary_title</td>
+<td>string</td>
+<td>required</td>
+<td>The secondary title of the article.</td>
+</tr>
+<tr>
+<td>content</td>
+<td>string</td>
+<td>required</td>
+<td>The content of the article.</td>
+</tr>
+<tr>
+<td>image</td>
+<td>file</td>
+<td>optional</td>
+<td>The image for the article.</td>
+</tr>
+<tr>
+<td>author_id</td>
+<td>integer</td>
+<td>optional</td>
+<td>the ID of the author of the article</td>
+</tr>
+</tbody>
+</table>
+<!-- END_9a915642db53ac060c5e3bf700770117 -->
+<!-- START_5c17a25103ba35d23264181da701ace7 -->
+<h2>Delete</h2>
+<p>Api to delete an article</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X DELETE "http://localhost:8000/auth/articles/1" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/auth/articles/1");
+
+let headers = {
+    "Authorization": "Bearer {token}",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "DELETE",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>DELETE /auth/articles/{id}</code></p>
+<!-- END_5c17a25103ba35d23264181da701ace7 -->
+<!-- START_85efc05b78f7b64d79d4beba3fb59c99 -->
+<h2>Update</h2>
+<p>Api to update an article</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PUT "http://localhost:8000/auth/articles/1" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/auth/articles/1");
+
+let headers = {
+    "Authorization": "Bearer {token}",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "PUT",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PUT /auth/articles/{id}</code></p>
+<!-- END_85efc05b78f7b64d79d4beba3fb59c99 -->
+<h1>Author Login</h1>
+<!-- START_b982a9c2785c94e078bbe534a1f12d68 -->
+<h2>LogIn</h2>
+<p>LogIn to your account.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost:8000/api/login" \
+    -H "Authorization: Bearer {token}" \
+    -H "Content-Type: application/json" \
+    -d '{"email":"molestias","password":"dignissimos"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/api/login");
+
+let headers = {
+    "Authorization": "Bearer {token}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "email": "molestias",
+    "password": "dignissimos"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "status": true,
+    "code": 200,
+    "msg": "author token",
+    "version": "1.0.0",
+    "data": []
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST /api/login</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>required</td>
+<td>The email of your account</td>
+</tr>
+<tr>
+<td>password</td>
+<td>string</td>
+<td>required</td>
+<td>The password of your account</td>
+</tr>
+</tbody>
+</table>
+<!-- END_b982a9c2785c94e078bbe534a1f12d68 -->
+<h1>Author management</h1>
+<p>APIs for managing authors</p>
+<!-- START_1b34809b1566de388155bca68b442b93 -->
+<h2>Show all authors</h2>
+<p>Api to list all authors</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/auth/authors" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/auth/authors");
+
+let headers = {
+    "Authorization": "Bearer {token}",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET /auth/authors</code></p>
+<!-- END_1b34809b1566de388155bca68b442b93 -->
+<!-- START_ff15446b7384a9f29854489092a43703 -->
+<h2>Show one author</h2>
+<p>Api to show one author</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/auth/authors/1" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/auth/authors/1");
+
+let headers = {
+    "Authorization": "Bearer {token}",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET /auth/authors/{id}</code></p>
+<!-- END_ff15446b7384a9f29854489092a43703 -->
+<!-- START_47c15efae3a4b1feac35bee8b3aabddc -->
+<h2>Create an author</h2>
+<p>Api to create an author</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost:8000/auth/authors" \
+    -H "Authorization: Bearer {token}" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"rerum","password":"rerum","email":"non","location":"laudantium","github":"fuga","twitter":"nihil"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/auth/authors");
+
+let headers = {
+    "Authorization": "Bearer {token}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "rerum",
+    "password": "rerum",
+    "email": "non",
+    "location": "laudantium",
+    "github": "fuga",
+    "twitter": "nihil"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST /auth/authors</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>required</td>
+<td>The name of the author.</td>
+</tr>
+<tr>
+<td>password</td>
+<td>string</td>
+<td>required</td>
+<td>The password of the author.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>required</td>
+<td>The email of the author.</td>
+</tr>
+<tr>
+<td>location</td>
+<td>string</td>
+<td>required</td>
+<td>The location of the author.</td>
+</tr>
+<tr>
+<td>github</td>
+<td>string</td>
+<td>optional</td>
+<td>The github account of the author.</td>
+</tr>
+<tr>
+<td>twitter</td>
+<td>string</td>
+<td>optional</td>
+<td>The twitter account of the author.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_47c15efae3a4b1feac35bee8b3aabddc -->
+<!-- START_7d2c961da49027ef6aae09627ce35348 -->
+<h2>Delete</h2>
+<p>Api to delete an author</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X DELETE "http://localhost:8000/auth/authors/1" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/auth/authors/1");
+
+let headers = {
+    "Authorization": "Bearer {token}",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "DELETE",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>DELETE /auth/authors/{id}</code></p>
+<!-- END_7d2c961da49027ef6aae09627ce35348 -->
+<!-- START_3684312cf09d8bd9ef756190d31ea7be -->
+<h2>Update</h2>
+<p>Api to update an author</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PUT "http://localhost:8000/auth/authors/1" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/auth/authors/1");
+
+let headers = {
+    "Authorization": "Bearer {token}",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "PUT",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PUT /auth/authors/{id}</code></p>
+<!-- END_3684312cf09d8bd9ef756190d31ea7be -->
+      </div>
+      <div class="dark-box">
+                        <div class="lang-selector">
+                                    <a href="#" data-language-name="bash">bash</a>
+                                    <a href="#" data-language-name="javascript">javascript</a>
+                              </div>
+                </div>
+    </div>
+  </body>
+</html>
