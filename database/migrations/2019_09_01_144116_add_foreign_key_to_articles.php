@@ -14,7 +14,7 @@ class AddForeignKeyToArticles extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->bigInteger('author_id')->unsigned();
+            // $table->bigInteger('author_id')->unsigned();
             $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
         });
     }

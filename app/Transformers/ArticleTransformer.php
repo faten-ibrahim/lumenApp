@@ -15,10 +15,10 @@ class ArticleTransformer extends TransformerAbstract
     {
         return [
             'main title' => $article->main_title,
-            'secondary title'=>$article->secondary_title,
-            'article content'=>$article->content,
-            'author ID'=>$article->author_id,
-            'image url'=>$article->image,
+            'secondary title'=> $article->secondary_title,
+            'article content'=> $article->content,
+            'author ID'=> $article->author_id,
+            'image url'=> $article->image,
             
         ];
     }

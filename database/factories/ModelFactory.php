@@ -17,10 +17,10 @@ $factory->define(App\Author::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password'=>$hasher->make("secret"),
-        'github'=>$faker->sentence(4),
-        'twitter'=>$faker->sentence(4),
-        'location'=>$faker->sentence(4),
-        'latest_article_published'=>$faker->sentence(4)
+        'github'=>$faker->email,
+        'twitter'=>$faker->email,
+        'location'=>$faker->country,
+        'latest_article_published' => null
     ];
 });
 
@@ -31,7 +31,7 @@ $factory->define(App\Article::class, function (Faker\Generator $faker) {
         'secondary_title' => $faker->sentence(4),
         'content' => $faker->paragraph(2),
         'image'=> $faker->image,
-        'author_id' => mt_rand(1, 10)
+        'author_id' => mt_rand(1, 8)
     ];
 });
 

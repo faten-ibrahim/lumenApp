@@ -14,13 +14,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Disable foreign key checking because truncate() will fail
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Author::truncate();
-        Article::truncate();
+        // DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        // Author::truncate();
+        // Article::truncate();
         factory(Author::class, 10)->create();
         factory(Article::class, 50)->create();
         // Enable it back
-        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+        // DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 
     

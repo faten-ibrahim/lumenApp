@@ -63,7 +63,9 @@ class ArticleController extends Controller
  */
     public function showOneArticle($id)
     {
+        
         $article=Article::find($id);
+       
         if(!$article){
             return response()->json(['message' => "The article with {$id} doesn't exist"], 404);
         }
@@ -101,7 +103,7 @@ class ArticleController extends Controller
             'author_id' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        $file_url = "https://res.cloudinary.com/du9jugrtd/image/upload/v1567609092/n0jssphvusc5byvbhuz9.jpg";
+        $file_url=env('IMAGE_FILE_URL');
         if ($request->hasFile('image') && $request->file('image')->isValid()){
         $cloudder = Cloudder::upload($request->file('image')->getRealPath());
         $uploadResult = $cloudder->getResult();
@@ -128,19 +130,12 @@ class ArticleController extends Controller
  */
     public function update($id, Request $request)
     {
-        $this->validate($request, [
-            'main_title' => 'required',
-            'secondary_title'=>'required',
-            'content' => 'required',
-            'author_id' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-        
+       
         $article = Article::find($id);
         if(!$article){
             return response()->json(['message' => "The article with {$id} doesn't exist"], 404);
         }
-        $file_url = "https://res.cloudinary.com/du9jugrtd/image/upload/v1567609092/n0jssphvusc5byvbhuz9.jpg";
+        $file_url=env('IMAGE_FILE_URL');
         $article->update($request->all());
         if ($request->hasFile('image') && $request->file('image')->isValid()){
             if($request->file('image') != $article->first()->image){

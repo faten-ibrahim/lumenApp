@@ -1,12 +1,22 @@
 <?php
 use Illuminate\Http\UploadedFile;
+use Laravel\Lumen\Testing\DatabaseMigrations;
+use App\Author;
+use App\Article;
 class ArticleTest extends TestCase
 {
+    use DatabaseMigrations;
    /**
     * /api/articles [GET]
     */
    public function testShouldReturnAllArticles(){
-       $this->get("api/articles", []);
+
+       factory('App\Author', 10)->create();
+       factory('App\Article', 5)->create();
+       $author = factory('App\Author')->create();
+       $this->actingAs($author)
+         ->get("auth/articles", []);
+    //    $this->get("api/articles", []);
        $this->seeStatusCode(200);
        $this->seeJsonStructure([
            'data' =>
@@ -26,9 +36,15 @@ class ArticleTest extends TestCase
     * /api/articles/id [GET]
     */
    public function testShouldReturnArticle(){
-       $this->get("api/articles/2", []);
-       $this->seeStatusCode(200);
-       $this->seeJsonStructure(
+    
+        
+    $auth=factory('App\Author')->create();
+    $article = factory('App\Article')->create(['author_id'=>$auth->id]);
+    $author = factory('App\Author')->create();
+        $this->actingAs($author)
+             ->get("auth/articles/{$article->id}", []);
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure(
            ['data' =>
                [
                     'main title',
@@ -46,11 +62,14 @@ class ArticleTest extends TestCase
     * /api/articles [POST]
     */
    public function testShouldCreateArticle(){
-      
-    $article = factory('App\Article')->make();
+    $auth=factory('App\Author')->create();
+    $article = factory('App\Article')->create(['author_id'=>$auth->id]);
+    $author = factory('App\Author')->create();
+
     $article['image'] = UploadedFile::fake()->image('avatar.jpeg');
     // dd($article);
-    $response=$this->post("api/articles", $article->toArray(), []);        
+    $response= $this->actingAs($author)
+                    ->post("auth/articles", $article->toArray(), []);        
     $this->assertEquals(201, $this->response->status());
    }
 
@@ -58,18 +77,21 @@ class ArticleTest extends TestCase
     * /api/articles/id [PUT]
     */
    public function testShouldUpdateArticle(){
-    
-    $article = factory('App\Article')->make();
-    $article['image'] = UploadedFile::fake()->image('avatar.jpeg');
-    $response=$this->put("api/articles/31", $article->toArray(), []);         
+    $auth=factory('App\Author')->create();
+    $article = factory('App\Article')->create(['author_id'=>$auth->id])->toArray();
+    $author = factory('App\Author')->create(); 
+    $response= $this->actingAs($author)
+                    ->put("/auth/articles/{$article['id']}", $article, []);       
     $this->assertEquals(200, $this->response->status());
    }
    /**
     * /api/articles/id [DELETE]
     */
    public function testShouldDeleteArticle(){
-
-       $this->delete("api/articles/31", [], []);
+       $author = factory('App\Author')->create();
+       $article = factory('App\Article')->create();
+       $this->actingAs($author)
+            ->delete("auth/articles/{$article->id}", [], []);
        $this->seeStatusCode(200);
        $this->seeJsonStructure([
                'status',

@@ -19,7 +19,7 @@ class CreateArticlesTable extends Migration
             $table->string('secondary_title',100);
             $table->text('content');
             $table->string('image',150)->nullable();
-           
+            $table->unsignedBigInteger('author_id');
             $table->timestamps();
         });
     }
